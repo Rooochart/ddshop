@@ -1,0 +1,36 @@
+搭建SSM项目步骤
+  1  创建maven工程
+  2  修改目录，补全目录，如test测试目录，java文件目录等，修改pom文件
+      main目录下补全java，resources(带root标识)，java内部创建父目录，再创建三个子目录，controller，service和utils
+      与main目录同级创建test目录，内部java和resources(带测试root)
+      webapp目录下重建index文件：删除后原位置重新创建相同名称jsp文件；web-inf下重建web.xml文件：直接删除，
+         file-project Structure-modules-ddshop-web-重新添加Deployment
+      再改造pom文件
+      web.xml添加post乱码过滤器，注册springMVC框架，注册spring框架，注册
+  3  添加SSM框架所有依赖
+  4  拷贝jdbc.properties到resource文件下
+  5  新建applicationContext_dao.xml文件，进行持久层的配置
+  6  新建applicationContext_service.xml，进行业务逻辑层配置
+  7  新建springMVC.xml文件配置
+  8  新建SQLMapConfig.xml文件配置，分页插件
+  9  使用逆向工程配置pojo和mapper文件
+  10 开发逻辑业务层，进行登录判断
+  11 开发控制器Admincation，完成登录处理
+  12 改造页面，发送登录请求，验证登录
+
+
+  我的错误
+  1  原来是 <rcontext:property-placeholde...  然后改成这个
+<!-- 读取jdbc.properties文件 -->  <!-- 注意我发生过错误：bean无法初始化或者已经关闭 -->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+  2  日志     我在下面也添加了依赖，原版未添加
+  <!-- 日志处理 -->
+  <slf4j-nop.version>1.7.2</slf4j-nop.version>
+  <!-- 日志   https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
+   依赖：    <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>${slf4j-nop.version}</version>
+            </dependency>
+  3  发生404，说页面找不到
+  解决： Tomcat 重新Deployment ，下面的application context 填 /  表示主目录！！
